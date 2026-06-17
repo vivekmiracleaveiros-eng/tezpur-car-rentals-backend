@@ -11,9 +11,12 @@ app.use(cors());
 const JWT_SECRET = "tezpur_secret_key_123";
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/tezpur_rentals')
+// Connect to MongoDB
+const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/tezpur_rentals';
+
+mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB Connected: Secured Schema Active'))
-  .catch(err => console.error(err));
+  .catch(err => console.error('Database connection error:', err));
 
 // --- MONGOOSE SCHEMAS & MODELS ---
 const userSchema = new mongoose.Schema({
