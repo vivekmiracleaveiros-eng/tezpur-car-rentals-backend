@@ -7,7 +7,19 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(express.json());
 app.use(cors());
-
+// TEMPORARY SEED ROUTE
+app.get('/run-my-seed-script-xyz', async (req, res) => {
+  try {
+    const seedDB = require('./seed'); // This imports your seed logic
+    // If your seed.js exports a function, we call it:
+    if (typeof seedDB === 'function') {
+      await seedDB();
+    }
+    res.send('Database Seeded Successfully via Cloud Route!');
+  } catch (err) {
+    res.status(500).send('Error running seed: ' + err.message);
+  }
+});
 const JWT_SECRET = "tezpur_secret_key_123";
 
 // Connect to MongoDB
